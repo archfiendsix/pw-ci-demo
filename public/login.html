@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login — PW CI Demo</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/login.html">Login</a>
+    <a href="/todos.html">Todos</a>
+    <a href="/dashboard.html">Dashboard</a>
+  </nav>
+
+  <h1>Login</h1>
+  <form id="login-form" novalidate>
+    <div>
+      <label for="username">Username</label><br />
+      <input id="username" name="username" type="text" />
+    </div>
+    <div>
+      <label for="password">Password</label><br />
+      <input id="password" name="password" type="password" />
+    </div>
+    <button type="submit">Sign in</button>
+    <p class="error" data-testid="error" hidden>Invalid username or password</p>
+  </form>
+
+  <script>
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const error = document.querySelector('[data-testid="error"]');
+
+      // Demo creds — any username, fixed password.
+      if (username && password === 'password123') {
+        localStorage.setItem('user', JSON.stringify({ name: username }));
+        window.location.href = '/dashboard.html';
+      } else {
+        error.hidden = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "pw-ci-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demo: a simple website with Playwright tests colocated in the frontend repo, for exercising GitHub CI/CD triggers.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

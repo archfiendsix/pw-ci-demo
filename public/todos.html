@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Todos — PW CI Demo</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/login.html">Login</a>
+    <a href="/todos.html">Todos</a>
+    <a href="/dashboard.html">Dashboard</a>
+  </nav>
+
+  <h1>Todos</h1>
+  <form id="add-form">
+    <input id="todo-input" type="text" placeholder="What needs doing?" aria-label="New todo" />
+    <button type="submit">Add</button>
+  </form>
+  <p data-testid="count">0 items</p>
+  <ul id="list" data-testid="todo-list"></ul>
+
+  <script>
+    const KEY = 'todos';
+    const list = document.getElementById('list');
+    const count = document.querySelector('[data-testid="count"]');
+    const load = () => JSON.parse(localStorage.getItem(KEY) || '[]');
+    const save = (todos) => localStorage.setItem(KEY, JSON.stringify(todos));
+
+    function render() {
+      const todos = load();
+      list.innerHTML = '';
+      todos.forEach((text, i) => {
+        const li = document.createElement('li');
+        const span = document.createElement('span');
+        span.textContent = text;
+        const btn = document.createElement('button');
+        btn.className = 'remove';
+        btn.textContent = 'x';
+        btn.setAttribute('aria-label', `Remove ${text}`);
+        btn.addEventListener('click', () => {
+          const next = load();
+          next.splice(i, 1);
+          save(next);
+          render();
+        });
+        li.append(span, btn);
+        list.appendChild(li);
+      });
+      count.textContent = `${todos.length} item${todos.length === 1 ? '' : 's'}`;
+    }
+
+    document.getElementById('add-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('todo-input');
+      const text = input.value.trim();
+      if (!text) return;
+      const todos = load();
+      todos.push(text);
+      save(todos);
+      input.value = '';
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard — PW CI Demo</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/login.html">Login</a>
+    <a href="/todos.html">Todos</a>
+    <a href="/dashboard.html">Dashboard</a>
+  </nav>
+
+  <h1>Dashboard</h1>
+  <p data-testid="welcome">…</p>
+  <button id="logout">Log out</button>
+
+  <script>
+    const raw = localStorage.getItem('user');
+    if (!raw) {
+      window.location.href = '/login.html';
+    } else {
+      const user = JSON.parse(raw);
+      document.querySelector('[data-testid="welcome"]').textContent = `Welcome, ${user.name}!`;
+    }
+    document.getElementById('logout').addEventListener('click', () => {
+      localStorage.removeItem('user');
+      window.location.href = '/login.html';
+    });
+  </script>
+</body>
+</html>

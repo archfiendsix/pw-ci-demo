@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PW CI Demo</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/login.html">Login</a>
+    <a href="/todos.html">Todos</a>
+    <a href="/dashboard.html">Dashboard</a>
+  </nav>
+
+  <h1>Playwright CI Demo</h1>
+  <p>A tiny website used to exercise GitHub CI/CD triggers with colocated Playwright tests.</p>
+
+  <section>
+    <h2>Quote of the moment</h2>
+    <p data-testid="quote">Loading…</p>
+  </section>
+
+  <script>
+    // Fetched from the fake API — api-mock.spec.ts intercepts this.
+    fetch('/api/quote')
+      .then((r) => r.json())
+      .then((d) => { document.querySelector('[data-testid="quote"]').textContent = d.quote; })
+      .catch(() => { document.querySelector('[data-testid="quote"]').textContent = 'Failed to load'; });
+  </script>
+</body>
+</html>
